@@ -1,0 +1,10 @@
+ <h1>All Bookmarks</h1>
+ <% @bookmarks.each do |bookmark| %>
+   <div class="media">
+     <div class="media-body">
+       <h4 class="media-heading">
+         <%= link_to bookmark.Url, bookmark %>
+       </h4>
+     </div>
+   </div>
+ <% end %>
