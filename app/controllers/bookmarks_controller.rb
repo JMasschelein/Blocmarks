@@ -1,13 +1,12 @@
 class BookmarksController < ApplicationController
-  def index
-      @bookmarks = Bookmark.all
-  end
+
 
   def show
       @bookmark = Bookmark.find(params[:id])
   end
 
   def new
+      @topic = Topic.find(params[:topic_id])
       @bookmark = Bookmark.new
   end
     
@@ -16,10 +15,12 @@ class BookmarksController < ApplicationController
      @bookmark = Bookmark.new
      @bookmark.title = params[:bookmark][:title]
      @bookmark.Url = params[:bookmark][:Url]
+     @topic = Topic.find(params[:topic_id])
+     @bookmark.topic = @topic
 
      if @bookmark.save
        flash[:notice] = "Bookmark was saved."
-       redirect_to @bookmark
+       redirect_to [@topic, @bookmark]
      else
 
        flash.now[:alert] = "There was an error saving the bookmark. Please try again."
@@ -37,11 +38,12 @@ class BookmarksController < ApplicationController
      @bookmark.Url = params[:bookmark][:Url]
  
      if @bookmark.save
-       flash[:notice] = "Bookmark was updated."
-       redirect_to @bookmark
+       flash[:notice] = "Bookmark was saved."
+       redirect_to topic_bookmark_url
      else
+
        flash.now[:alert] = "There was an error saving the bookmark. Please try again."
-       render :edit
+       render :new
      end
    end
     
@@ -50,7 +52,7 @@ class BookmarksController < ApplicationController
  
      if @bookmark.destroy
        flash[:notice] = "\"#{@bookmark.Url}\" was deleted successfully."
-       redirect_to bookmarks_path
+       redirect_to @bookmark.topic
      else
        flash.now[:alert] = "There was an error deleting the bookmark."
        render :show

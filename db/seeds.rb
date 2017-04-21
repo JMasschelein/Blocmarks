@@ -2,15 +2,23 @@
 
  # Create Bookmarks
  50.times do
- # #1
+
    Bookmark.create!(
- # #2
-     title:  RandomData.random_sentence,
+     
      Url:   RandomData.random_paragraph
    )
  end
  bookmarks = Bookmark.all
 
- 
+ # Create Topics
+ 15.times do
+   Topic.create!(
+     title: RandomData.random_sentence,
+   )
+ end
+ topics = Topic.all 
+
+
  puts "Seed finished"
+puts "#{Topic.count} topics created"
  puts "#{Bookmark.count} bookmarks created"
